@@ -32,6 +32,36 @@ def main():
   f.close()
 
   data_count = len(dataset)
+  sel_idx = my_idx
+  if data_count <= sel_idx:
+    print "Passive member"
+    return 0
+
+  dataset = dataset[sel_idx]
+  print "Active member: %s" % sel_idx
+  print dataset
+
+  ctime = 0
+  for entry in dataset:
+    if duration != -1 and entry[0] > duration:
+      break
+    time.sleep(entry[0] - ctime)
+#    Debug
+#    time.sleep(1)
+    ctime = entry[0]
+
+    msg = ''.join(random.choice(string.ascii_letters + string.digits) \
+        for x in range(entry[1]))
+#    resp = send("127.0.0.1", port, msg)
+
+    if resp.status != 200:
+      print "Failed! %d %s" % (resp.status, resp.reason)
+
+if __name__ == "__main__":
+  main()
+
+'''
+# Random distribution
   rand = random.Random(s)
   selected = {}
   idx = 0
@@ -51,30 +81,5 @@ def main():
 
     selected[sel_idx] = idx
     idx += 1
+'''
 
-  if data_count <= sel_idx:
-    print "Passive member"
-    return 0
-
-  dataset = dataset[sel_idx]
-  print "Active member:"
-  print dataset
-
-  ctime = 0
-  for entry in dataset:
-    if duration != -1 and entry[0] > duration:
-      break
-    time.sleep(entry[0] - ctime)
-#    Debug
-#    time.sleep(1)
-    ctime = entry[0]
-
-    msg = ''.join(random.choice(string.ascii_letters + string.digits) \
-        for x in range(entry[1]))
-    resp = send("127.0.0.1", port, msg)
-
-    if resp.status != 200:
-      print "Failed! %d %s" % (resp.status, resp.reason)
-
-if __name__ == "__main__":
-  main()
