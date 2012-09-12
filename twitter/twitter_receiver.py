@@ -27,14 +27,19 @@ def main():
     if resp.status != 200:
       print "Failed! %d %s" %s (resp.status, resp.reason)
       return 0
-    msg = json.loads(resp.read())
-    count = len(msg["output"]["messages"])
-    offset += count
+    output = resp.read()
+    try:
+      msg = json.loads(output)
+      count = len(msg["output"]["messages"])
+      offset += count
 
-    f = open(fname, "a")
-    for idx in range(count):
-      f.write("%f\n" % (datetime.now() - start).total_seconds())
-    f.close()
+      f = open(fname, "a")
+      for idx in range(count):
+        f.write("%f\n" % (datetime.now() - start).total_seconds())
+      f.close()
+    except:
+      offset += 1
+      print output
 
 if __name__ == "__main__":
   main()
