@@ -35,15 +35,16 @@ def main():
   rand = random.Random(s)
   selected = {}
   idx = 0
+  bound = min(.5, 1.0 - (data_count * 1.0) / (count * 1.0))
 
   while idx <= my_idx:
-    if rand.random() < .5:
+    if rand.random() < bound:
       sel_idx = data_count + idx
     else:
       sel_idx = int(data_count * rand.random())
 
     while sel_idx in selected:
-      if rand.random() < .5:
+      if rand.random() < bound:
         sel_idx = data_count + idx
       else:
         sel_idx = int(data_count * rand.random())
@@ -51,17 +52,21 @@ def main():
     selected[sel_idx] = idx
     idx += 1
 
-  print sel_idx
   if data_count <= sel_idx:
+    print "Passive member"
     return 0
 
   dataset = dataset[sel_idx]
-  ctime = 0
+  print "Active member:"
   print dataset
+
+  ctime = 0
   for entry in dataset:
     if duration != -1 and entry[0] > duration:
       break
     time.sleep(entry[0] - ctime)
+#    Debug
+#    time.sleep(1)
     ctime = entry[0]
 
     msg = ''.join(random.choice(string.ascii_letters + string.digits) \
