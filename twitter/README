@@ -1,0 +1,53 @@
+Twitter crawler, parser, and simulator for Dissent
+
+==============================================================================
+twitter.py
+==============================================================================
+
+From the Python-Twitter group and requires simplejson, oauth2, and httplib to
+be installed.  Unfortunately, it does not support streaming and has a slightly
+broken oauth2 Api for POST
+
+==============================================================================
+twitter_stream.py
+==============================================================================
+
+Extends twitter.py to provide some initial streaming support (focused on the
+task of crawling / scraping) and a fixed oauth2 POST interface.  When run
+directly it will find a user with over 100,000 users, select randomly 4,999 of
+his followers, and then follow them for up to 100,000 messages or until
+interrupted (by running it again).  Upon completion it writes the following
+files: output, pickled status updates; user, the selected user; and users, the
+followers of the selected user.
+
+==============================================================================
+parse.py
+==============================================================================
+
+Takes an output file from twitter_stream.py and makes a parsed file that can be
+used by twitter_sender.py
+
+==============================================================================
+twitter_sender.py
+==============================================================================
+
+Using the parse file from a parse.py output, replays Twitter traffic for a
+randomly selected member within the group. The command line parameters are:
+port count my_idx dataset [duration].
+
+port - running port of the local Dissent web service
+count - total number of crawled Twitter entities (probably 5,000)
+my_idx - the nodes unique index in the set of all nodes
+dataset - /path/to/dataset
+duration - (optional) specifies in seconds the duration of the sending
+
+==============================================================================
+twitter_stream.py
+==============================================================================
+
+Receives tweets via the web service and records their times to a specified file.
+The command line parameters are: port filename
+
+port - running port of the local Dissent web service
+filename - where to write the timestamps (from the start of application
+execution)
