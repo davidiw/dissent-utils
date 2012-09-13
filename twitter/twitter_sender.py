@@ -52,7 +52,7 @@ def main():
 
     msg = ''.join(random.choice(string.ascii_letters + string.digits) \
         for x in range(entry[1]))
-#    resp = send("127.0.0.1", port, msg)
+    resp = send("127.0.0.1", port, msg)
 
     if resp.status != 200:
       print "Failed! %d %s" % (resp.status, resp.reason)
