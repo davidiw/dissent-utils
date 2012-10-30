@@ -8,16 +8,14 @@ set lanstr ""
 for {set i 0} {$i < $server_count} {incr i} {
         set server($i) [$ns node]
         tb-set-hardware $server($i) MicroCloud
-#        tb-set-node-os $server($i) Ubuntu1204-64-STD
-        tb-set-node-os $server($i) Ubuntu-1204-Dissent
+        tb-set-node-os $server($i) Ubuntu1204-64-STD
         append server_lanstr "$server($i) "
 
         set client_lanstr "$server($i) "
 
         for {set j 0} {$j < $node_count} {incr j} {
                 set client($i-$j) [$ns node]
-#                tb-set-node-os $client($i-$j) Ubuntu1204-64-STD
-                tb-set-node-os $server($i) Ubuntu-1204-Dissent
+                tb-set-node-os $client($i-$j) Ubuntu1204-64-STD
                 append client_lanstr "$client($i-$j) "
         }
 
